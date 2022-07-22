@@ -1,6 +1,10 @@
 ---
-layout: ballerina-blank-page
-title: Release note
+layout: ballerina-left-nav-release-notes
+title: Swan Lake Preview 1
+permalink: /downloads/swan-lake-release-notes/swan-lake-preview1/
+active: swan-lake-preview1
+redirect_from: 
+    - /downloads/swan-lake-release-notes/swan-lake-preview1
 ---
 ### Overview of Ballerina Swan Lake - Preview 1
 Ballerina Swan Lake will be a major new version of Ballerina that we plan to release in January 2021. We will be doing major releases every 6 months from then on. We also plan to use popular ballet names as the codename for each release - so the 2021-07 release will be the Nutcracker release. We will announce details on maintenance of released versions and will also have an LTS release model similar to Ubuntu or Java.
@@ -11,7 +15,7 @@ You can use the update tool to update to Ballerina Swan Lake Preview 1 as follow
 
 **For existing users:**
 
-If you are already using jBallerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina Update Tool](/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the Update Tool updated to its latest version. 
+If you are already using jBallerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
                         
 > `ballerina update`
 
@@ -558,9 +562,9 @@ public function main() {
 - Error binding patterns and structured match patterns are not yet supported with the new parser.
 
 
-#### Standard Library
+#### Standard library
 
-##### Introduced new SQL module
+##### Introduced new `sql` module
 
 The newly-introduced `sql` module provides a common interface and functionality to interact with a database. The corresponding database clients can be created by using specific database modules such as MySQL or using the Java Database Connectivity module JDBC. 
 
@@ -585,7 +589,7 @@ public function main() returns sql:Error? {
 }
 ```
 
-##### Enhanced log API module
+##### Enhanced `logapi` module
 
 Revamped log API to support `anydata` and improved performance.
 
@@ -617,7 +621,7 @@ public type Fruit object {
 };
 ```
 
-##### Enhanced gRPC module
+##### Enhanced `grpc` module
 
 The client/bidirectional streaming service implementation is revamped to support multiple service resources.
 
@@ -646,7 +650,7 @@ service HelloWorld on new grpc:Listener(9090) {
 
 ```
 
-##### Enhanced Auth module
+##### Enhanced `auth` module
 
 The capability to validate the JWT signature with JWKs is extended now. With that, the JWT signature can be validated either from the TrustStore configuration or JWKs configuration.
 
@@ -666,7 +670,7 @@ jwt:JwtValidatorConfig validatorConfig = {
 };
 ```
 
-##### Enhanced Email module
+##### Enhanced `email` module
 
 The Email Connector clients are given the capability to add custom SMTP properties, custom POP properties, and custom IMAP properties via the configuration of each of the clients.
 
@@ -705,7 +709,7 @@ service emailObserver on emailListener {
 ```
 
 
-##### Adding the Socket module to Ballerina Central
+##### Adding the `socket` module to Ballerina Central
 
 Previously, the Socket module was available only in the Ballerina distribution. From this release onwards, it is available in both the
  released Ballerina distribution and Ballerina Central. This will allow us to release the module independently.
@@ -780,14 +784,14 @@ This provides variable evaluation support. This will allow you to evaluate a var
 
 #### Test framework
 
-###### Introduction of the Mocking API in the Test module
+###### Introduction of the mocking API in the `test` module
 
 The new mocking API simplifies function and object mocking in unit tests via the ***when-then*** convention. 
 
 The mocking features can be used to control the behavior of functions and objects by defining return values or
  replacing the entire object or function with a user-defined equivalent. This feature will help you to test your Ballerina code independently 
 from other modules and external endpoints. For the complete list of available mocking features, see 
-[API Documentation of the test module](https://ballerina.io/learn/api-docs/ballerina/test/index.html).
+[API Documentation of the test module](https://docs.central.ballerina.io/ballerina/test/latest/).
 
 ###### Function mocking
 

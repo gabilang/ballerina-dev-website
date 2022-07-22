@@ -1,42 +1,25 @@
 ---
-layout: ballerina-example-page
-title: Access Logs
-description: Ballerina by Example is a hands-on introduction to Ballerina using annotated example programs. Check out the first example or browse the full list below.
+layout: ballerina-example-page-old
+title: Access logs
+description: This BBE demonstrates the access logs for HTTP services in Ballerina.
+keywords: ballerina, ballerina by example, bbe, http, access log, service
 permalink: /learn/by-example/http-access-logs
+active: http-access-logs
 redirect_from:
-  - /v1-2/learn/by-example/http-access-logs
-  - /v1-2/learn/by-example/http-access-logs.html
+  - /swan-lake/learn/by-example/http-access-logs
+  - /swan-lake/learn/by-example/http-access-logs.html
 ---
 <div class="row cBallerina-io-Gray-row">
         <div class="container cBallerinaBySampleContainer">
             <div class="FullCode">
                 <div class="highlight"><pre><span class="kn">import</span> <span class="nx">ballerina</span><span class="o">/</span><span class="nx">http</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nx">ballerina</span><span class="o">/</span><span class="nx">log</span><span class="p">;</span><span class="nd">@http:ServiceConfig {</span>
-    <span class="nx">basePath</span><span class="p">:</span> <span class="s">&quot;/hello&quot;</span>
+
+<span class="kd">service</span> <span class="o">/</span> <span class="nx">on</span> <span class="nx">new</span> <span class="nx">http</span><span class="p">:</span><span class="nx">Listener</span><span class="p">(</span><span class="mi">9095</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">resource</span> <span class="kd">function</span> <span class="nx">get</span> <span class="nx">hello</span><span class="p">()</span> <span class="nx">returns</span> <span class="kt">string</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Successful&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
 <span class="p">}</span>
-<span class="kd">service</span> <span class="nx">helloService</span> <span class="nx">on</span> <span class="nx">new</span> <span class="nx">http</span><span class="p">:</span><span class="nx">Listener</span><span class="p">(</span><span class="mi">9095</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nd">@http:ResourceConfig {</span>
-        <span class="nx">methods</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;GET&quot;</span><span class="p">],</span>
-        <span class="nx">path</span><span class="p">:</span> <span class="s">&quot;/&quot;</span>
-    <span class="p">}</span>
-    <span class="kd">resource</span> <span class="kd">function</span> <span class="nx">hello</span><span class="p">(</span><span class="nx">http</span><span class="p">:</span><span class="nx">Caller</span> <span class="nx">caller</span><span class="p">,</span> <span class="nx">http</span><span class="p">:</span><span class="nx">Request</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">var</span> <span class="nx">result</span> <span class="p">=</span> <span class="nx">caller</span><span class="o">-&gt;</span><span class="nx">respond</span><span class="p">(</span><span class="s">&quot;Successful&quot;</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">result</span> <span class="nx">is</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">log</span><span class="p">:</span><span class="nx">printError</span><span class="p">(</span><span class="s">&quot;Error occurred while responding&quot;</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span><span class="err">#</span> <span class="nx">At</span> <span class="nx">the</span> <span class="nx">command</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">navigate</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">directory</span> <span class="nx">that</span> <span class="nx">contains</span> <span class="nx">the</span>
-<span class="err">#</span> <span class="s">`.bal`</span> <span class="nx">file</span> <span class="nx">and</span> <span class="nx">do</span> <span class="nx">one</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">following</span> <span class="nx">depending</span> <span class="nx">on</span> <span class="nx">whether</span> <span class="nx">you</span> <span class="nx">want</span> <span class="nx">the</span> <span class="nx">logs</span> <span class="nx">to</span> <span class="nx">be</span> <span class="nx">logged</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">console</span><span class="p">,</span> <span class="nx">or</span> <span class="nx">in</span> <span class="nx">a</span> <span class="nx">file</span><span class="p">.</span>
-<span class="err">#</span> <span class="nx">Run</span> <span class="nx">the</span> <span class="kd">service</span> <span class="nx">by</span> <span class="nx">setting</span> <span class="nx">the</span> <span class="s">`--b7a.http.accesslog.console=true`</span> <span class="nx">property</span> <span class="nx">to</span> <span class="nx">log</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">console</span><span class="p">.</span>
-<span class="nx">ballerina</span> <span class="nx">run</span> <span class="nx">http_access_logs</span><span class="p">.</span><span class="nx">bal</span> <span class="o">--</span><span class="nx">b7a</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">accesslog</span><span class="p">.</span><span class="nx">console</span><span class="p">=</span><span class="kc">true</span> 
-<span class="nx">ballerina</span><span class="p">:</span> <span class="nx">HTTP</span> <span class="nx">access</span> <span class="nx">log</span> <span class="nx">enabled</span>
-<span class="p">[</span><span class="nx">ballerina</span><span class="o">/</span><span class="nx">http</span><span class="p">]</span> <span class="nx">started</span> <span class="nx">HTTP</span><span class="o">/</span><span class="nx">WS</span> <span class="nx">listener</span> <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">9095</span>
-<span class="mf">127.0.0.1</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">30</span><span class="o">/</span><span class="nx">Oct</span><span class="o">/</span><span class="mi">2018</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">08</span> <span class="o">+</span><span class="mo">0530</span><span class="p">]</span> <span class="s">&quot;GET /hello HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">10</span> <span class="s">&quot;-&quot;</span> <span class="s">&quot;curl/7.58.0&quot;</span><span class="err">#</span> <span class="nx">Or</span><span class="p">,</span> <span class="nx">run</span> <span class="nx">the</span> <span class="kd">service</span> <span class="nx">by</span> <span class="nx">setting</span> <span class="s">`--b7a.http.accesslog.path=path/to/file.txt`</span> <span class="nx">to</span> <span class="nx">log</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">specified</span> <span class="nx">file</span><span class="p">.</span>
-<span class="nx">ballerina</span> <span class="nx">run</span> <span class="nx">http_access_logs</span><span class="p">.</span><span class="nx">bal</span> <span class="o">--</span><span class="nx">b7a</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">accesslog</span><span class="p">.</span><span class="nx">path</span><span class="p">=</span><span class="nx">path</span><span class="o">/</span><span class="nx">to</span><span class="o">/</span><span class="nx">file</span><span class="p">.</span><span class="nx">txt</span> 
-<span class="nx">ballerina</span><span class="p">:</span> <span class="nx">HTTP</span> <span class="nx">access</span> <span class="nx">log</span> <span class="nx">enabled</span>
-<span class="p">[</span><span class="nx">ballerina</span><span class="o">/</span><span class="nx">http</span><span class="p">]</span> <span class="nx">started</span> <span class="nx">HTTP</span><span class="o">/</span><span class="nx">WS</span> <span class="nx">listener</span> <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">9095</span><span class="err">#</span> <span class="nx">Invoke</span> <span class="nx">the</span> <span class="kd">service</span><span class="p">.</span>
-<span class="nx">curl</span> <span class="o">-</span><span class="nx">k</span> <span class="nx">http</span><span class="p">:</span><span class="c1">//localhost:9095/hello</span>
-<span class="nx">Successful</span>
 </pre></div>
 
             </div>
@@ -45,8 +28,12 @@ redirect_from:
                 <table class="cTopInfoContainer cTopControlsContainer">
                     <tr>
                         <td class="cLeftTD">
-                            <h2>Access Logs</h2>
-                            <p><p>Ballerina supports HTTP access logs for HTTP services. The access log format used is the combined log format.</p>
+                            <h2>Access logs</h2>
+                            <p><p>Ballerina supports HTTP access logs for HTTP services. The access log format used is the combined log format.
+ To enable access logs, set <code>console=true</code> under the <code>ballerina.http.accessLogConfig</code> in the <code>Config.toml</code> file.
+ Also, the <code>path</code> field can be used to specify the file path to save the access logs.<br/><br/>
+ For more information on the underlying module,
+ see the <a href="https://docs.central.ballerina.io/ballerina/http/latest/">HTTP module</a>.</p>
 </p>
 
                         </td>
@@ -54,16 +41,16 @@ redirect_from:
                             <div class="cTopButtonContainer">
                                 
                                 <div class="cButtonInfoContainer">
-                                    <a class="prev" href="http-cors.html">
+                                    <a class="prev" href="http-trace-logs.html">
                                         <span>< PREVIOUS</span>
-                                        <p>CORS</p>
+                                        <p>Trace logs</p>
                                     </a>
                                 </div>
                                  
                                 <div class="cButtonInfoContainer">
-                                    <a class="next" href="http-data-binding.html">
+                                    <a class="next" href="http-cookies.html">
                                         <span>NEXT ></span>
-                                        <p>Data Binding</p>
+                                        <p>Cookies</p>
                                     </a>
                                 </div>
                                 
@@ -74,210 +61,157 @@ redirect_from:
             </div>
             <div class="example" id="http-access-logs">
                 <div class="col-xs-12 col-sm-12 col-md-12 cBBETable-container cCodeLeft">
-                    <table class="cTopControlsContainer">
-                        <tr>
-                            <td class="cLeftTD">
+                    <div class="cTopControlsContainer">
+                        <div class="cTopControlsRow">
+                            <div class="cLeftTD">
                                 <div class="cBBE-links">
                                     <ul>
-                                        <!--<li>
-                                            <a class="copy"><img src="/img/copy-icon.svg" /></a>
-                                        </li>-->
                                         <li>
-                                            <a target="_blank" href="https://github.com/ballerina-platform/ballerina-lang/tree/ballerina-1.2.x/examples/http-access-logs/"><img src="/img/github-logo-green.svg" /></a>
+                                            <a class="copy"><img src="/img/copy-icon.svg" /></a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href="https://github.com/ballerina-platform/ballerina-distribution/tree/v2201.1.0/examples/http-access-logs/"><img src="/img/github-logo-green.svg" /></a>
                                         </li>
                                         
                                     </ul>
                                 </div>
-                            </td>
-                            <td></td>
-                        </tr>
-                    </table>
-
-                    <table class="cTopBorder-table">
-                        <tr>
-                            <td class="cCodeTD"></td>
-                            <td class="cDescTD"></td>
-                        </tr>
-                    </table>
-
+                            </div> 
+                        </div>
+                    </div>
+              
                     
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                    <div class="codeSnippeset">
 
-                    <div>
-
-                        <table class="cBBE-body">
+                        <div class="cBBE-body">
                             
-                            <tr class="cTR">
+                            <div class="cTR">
 
-                                <td class="code leading">
+                                <div class="code leading">
                                     <div class="highlight"><pre><code class=language-ballerina>import ballerina/http;
-import ballerina/log;
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR">
+                            <div class="cTR">
 
-                                <td class="code leading">
-                                    <div class="highlight"><pre><code class=language-ballerina>@http:ServiceConfig {
-    basePath: &quot;/hello&quot;
-}
-service helloService on new http:Listener(9095) {
-    @http:ResourceConfig {
-        methods: [&quot;GET&quot;],
-        path: &quot;/&quot;
-    }
-    resource function hello(http:Caller caller, http:Request request) {
+                                <div class="code leading">
+                                    <div class="highlight"><pre><code class=language-ballerina>service / on new http:Listener(9095) {
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR hover-enable">
+                            <div class="cTR">
 
-                                <td class="code leading">
-                                    <div class="highlight"><pre><code class=language-ballerina>        var result = caller-&gt;respond(&quot;Successful&quot;);
-</code></pre></div>
-
-                                </td>
-                                <td class="docs">
-                                    
-                                    <div class="cCodeDesription">
-                                        <div>
-                                            <p>Respond with the message &ldquo;Successful&rdquo; for each request.</p>
-
-                                        </div>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
-                            
-                            <tr class="cTR hover-enable">
-
-                                <td class="code">
-                                    <div class="highlight"><pre><code class=language-ballerina>        if (result is error) {
-            log:printError(&quot;Error occurred while responding&quot;, result);
-        }
+                                <div class="code">
+                                    <div class="highlight"><pre><code class=language-ballerina>    resource function get hello() returns string {
+        return &quot;Successful&quot;;
     }
 }
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                    <div class="cCodeDesription">
-                                        <div>
-                                            <p>Log the <code>error</code> in case of a failure.</p>
-
-                                        </div>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                        </table>
+                        </div>
                     </div>
                     
-                        
-                            
-                                
-                            
-                        
-                            
-                                
-                            
-                        
+                    <div class="codeSnippeset">
 
-                    <div>
-
-                        <table class="cBBE-body">
+                        <div class="cBBE-body">
                             
-                            <tr class="cTR cOutputTr">
+                            <div class="cTR cOutputTr">
 
-                                <td class="code leading cOutput">
-                                    <div class="highlight"><pre><code class=shell-session># At the command line, navigate to the directory that contains the
-# `.bal` file and do one of the following depending on whether you want the logs to be logged on the console, or in a file.
-# Run the service by setting the `--b7a.http.accesslog.console=true` property to log to the console.
-ballerina run http_access_logs.bal --b7a.http.accesslog.console=true 
-ballerina: HTTP access log enabled
-[ballerina/http] started HTTP/WS listener 0.0.0.0:9095
-127.0.0.1 - - [30/Oct/2018:11:23:08 +0530] &quot;GET /hello HTTP/1.1&quot; 200 10 &quot;-&quot; &quot;curl/7.58.0&quot;
+                                <div class="code leading cOutput">
+                                    <div class="highlight"><pre><code class=shell-session># Run the service by setting the configurations in the `Config.toml` file as follows to have logs in the console.
+echo &#39;[ballerina.http.accessLogConfig]
+console = true&#39; &gt; Config.toml
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR cOutputTr">
+                            <div class="cTR cOutputTr">
 
-                                <td class="code cOutput">
-                                    <div class="highlight"><pre><code class=shell-session># Or, run the service by setting `--b7a.http.accesslog.path=path/to/file.txt` to log to the specified file.
-ballerina run http_access_logs.bal --b7a.http.accesslog.path=path/to/file.txt 
+                                <div class="code leading cOutput">
+                                    <div class="highlight"><pre><code class=shell-session>bal run http_access_logs.bal
 ballerina: HTTP access log enabled
-[ballerina/http] started HTTP/WS listener 0.0.0.0:9095
+0:0:0:0:0:0:0:1 - - [06/Oct/2021:18:54:32 +0530] &quot;GET /hello HTTP/1.1&quot; 200 10 &quot;-&quot; &quot;curl/7.64.1&quot;
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                        </table>
+                            <div class="cTR cOutputTr">
+
+                                <div class="code leading cOutput">
+                                    <div class="highlight"><pre><code class=shell-session># Else, change the `Config.toml` file as follows to direct the log to the specified file.
+echo &#39;[ballerina.http.accessLogConfig]
+path = &quot;testAccessLog.txt&quot;&#39; &gt; Config.toml
+</code></pre></div>
+
+                                </div>
+                                <div class="docs">
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="cTR cOutputTr">
+
+                                <div class="code cOutput">
+                                    <div class="highlight"><pre><code class=shell-session>bal run http_access_logs.bal
+ballerina: HTTP access log enabled
+</code></pre></div>
+
+                                </div>
+                                <div class="docs">
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
                     </div>
                     
-                        
-                            
-                                
-                            
-                        
+                    <div class="codeSnippeset">
 
-                    <div>
-
-                        <table class="cBBE-body">
+                        <div class="cBBE-body">
                             
-                            <tr class="cTR cOutputTr">
+                            <div class="cTR cOutputTr">
 
-                                <td class="code cOutput">
+                                <div class="code cOutput">
                                     <div class="highlight"><pre><code class=shell-session># Invoke the service.
-curl -k http://localhost:9095/hello
+curl http://localhost:9095/hello
 Successful
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                        </table>
+                        </div>
                     </div>
                     
 
 
-                    <table class="cBottomBorder-table">
-                        <tr>
-                            <td class="cCodeTD"></td>
-                            <td class="cDescTD"></td>
-                        </tr>
-                    </table>
+                     
                 </div>
             </div>
         </div>
@@ -286,17 +220,21 @@ Successful
      <script>
             $(document).ready(function() {
 
-                hljs.initHighlightingOnLoad();
+                // hljs.initHighlightingOnLoad();
 
                 $(".switch").click(function() {
                     $(".cCodeRight").toggleClass('cShow');
                     $(".cCodeLeft").toggleClass('cHide');
                 });
 
+                // get code text
+                var codeSnippet = document.getElementsByClassName('FullCode')[0];
+                var codeText = codeSnippet.getElementsByTagName('pre')[0].textContent;
+
                 // register "copy to clipboard" event to elements with "copy" class
                 var clipboard = new ClipboardJS('.copy', {
                     text: function(trigger) {
-                        return $('.FullCode').find('pre').text();
+                        return codeText;
                     }
                 });
 

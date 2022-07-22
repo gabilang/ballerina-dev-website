@@ -64,7 +64,7 @@ function versionSelectorValue(){
         //let ver = "v" + optionText.replace(".", "-");
         
         if(pathValue.indexOf(optionText) > -1){
-            $(option).attr("selected", "selected");
+            $(option).prop('selected', true);
             status = 1;
         }        
     });
@@ -248,9 +248,19 @@ $("table").addClass('table-striped');
     /*
      * subscribe form
      */
-    $("#subscribeUserButton").click(function(event) {
+    $("#subscribe_button").click(function(event) {
         event.preventDefault();
-        subscribeUser($(this).val());
+        subscribeUserOS();
+    });
+
+    $("#tt_subscribe_button").click(function(event) {
+        event.preventDefault();
+        subscribeTechTalk();
+    });
+
+    $("#usecase_submit").click(function(event) {alert("3");
+        event.preventDefault();
+        submitUsecase();
     });
 
     $('#emailUser').on('keypress', function(event) {
@@ -397,8 +407,13 @@ $(function() {
     } else if (pathname.indexOf("help") != -1) {
         $("#helpli").addClass("cActive");
     } else if (pathname.indexOf("lean/events") != -1) {
-    $("#eventsli").addClass("cActive");
-}
+        $("#eventsli").addClass("cActive");
+    }
+
+    $('.leftNavToggleBtn').click(function(){
+        $(this).toggleClass('active');
+        $('.cLeftNavContainer').slideToggle();
+    })
 });
 
 
@@ -414,7 +429,12 @@ $(document).ready(function() {
             newPath =  "/learn/" + splitedPath[1];
         } else {
             let selectedValue = selectedOption.value;
-            newPath = "/" + selectedValue + "/learn/" + splitedPath[1];
+            if (selectedValue == "swan-lake") {
+                newPath = "/learn/" + splitedPath[1];
+            }
+            else {
+                newPath = "/" + selectedValue + "/learn/" + splitedPath[1];
+            }
         }
         window.open( newPath , "_self" );
     };
@@ -437,7 +457,15 @@ $(document).ready(function() {
     function subscribeUserOS() {
         $("#form-error").html("");
         var email = $('#userEmail').val();
-        var optin = $('#optin').is(":checked");
+        var nloptin = $('#nloptin').is(":checked");
+        var ccoptin = $('#ccoptin').is(":checked");
+        var emailoptin = $('#optin').is(":checked");
+
+        var type = "";
+        if(nloptin){type += "-Newsletters-";}
+
+        if(ccoptin){type += "-Community Calls-";}
+
         $('#subscribeUserMessage').remove("");
         if (email == "") {
             $("#form-error").text("Please enter your email.");
@@ -445,13 +473,14 @@ $(document).ready(function() {
         } else if (!isEmail(email)) {
             $("#form-error").text("Please enter a valid email.");
             $("#form-error").addClass("cShowBlock");
-        } else if(!optin){
-            $("#form-error").text("Please confirm email subscription");
+        } //else if(!nloptin && !ccoptin){
+            else if(!emailoptin){
+            $("#form-error").text("Please select a subscribe option.");
             $("#form-error").addClass("cShowBlock");
         }else {
             $('#subscribeForm').trigger("reset");
-            $(".pdframe").html("<iframe src='https://go.pardot.com/l/142131/2017-02-16/3c6zgy?email=" + email + "'></iframe>");
-            $("#form-status").text("You have successfully subscribed to the newsletter.");
+            $(".pdframe").html("<iframe src='https://go.pardot.com/l/142131/2017-02-16/3c6zgy?email=" + email + "&type=" + type + "'></iframe>");
+            $("#form-status").text("You have subscribed successfully.");
             $("#form-status").addClass("cShowBlock");
             $("#form-error").removeClass("cShowBlock");
             
@@ -460,67 +489,71 @@ $(document).ready(function() {
     }
     
     //Slack user form
+    $("#slackSuccessAlert").hide();
+    $("#slackFailAlert").hide();
     $("#slackSubscribeButton").click(function(event) {
         event.preventDefault();
         inviteSlackUser();
     });
-    $('#slackEmail').on('keypress', function(event) {
-        if (event.which === 13) {
-            event.preventDefault();
-            $(this).attr("disabled", "disabled");
-            var email = $("#slackEmail").val();
-            if (email == "") {
-                $('#slackEmail').val('');
-                $("#slackEmail").attr("placeholder", "Please enter your email.");
-            } else if (!isEmail(email)) {
-                $('#slackEmail').val('');
-                $("#slackEmail").attr("placeholder", "Please enter a valid email.");
+
+    function inviteSlackUser(){
+            
+        var email = $("#slackEmail").val();
+        if (email == "") {
+            $("#slackFailAlert").show();
+            $("#slackFailAlert").html("Please enter your email.");
+        } else if (!isEmail(email)) {
+            $("#slackFailAlert").show();
+            $("#slackFailAlert").html("Please enter a valid email.");
+        } else {
+            $("#slackFailAlert").hide();
+            $("#slackSuccessAlert").show();
+            $("#slackSuccessAlert").html("Processing...");
+
+            AWS.config.region = 'us-east-1';
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId: atob('dXMtZWFzdC0xOjhiMGViNzYzLTUwNWEtNGE0NS04ODA1LTNkY2ZlZGQwNDVhMA=='),
+            }); 
+            var lambda = new AWS.Lambda();
+            var result;
+            
+            if (email == null || email == '') {
+                input = {};
             } else {
-                $('#slackEmail').val('');
-                $("#slackEmail").attr("placeholder", "Processing...");
+                input = {
+                email: email
+                };
+            }
 
-                AWS.config.region = 'us-east-1';
-                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: atob('dXMtZWFzdC0xOjhiMGViNzYzLTUwNWEtNGE0NS04ODA1LTNkY2ZlZGQwNDVhMA=='),
-                }); 
-                var lambda = new AWS.Lambda();
-                var result;
-                
-                if (email == null || email == '') {
-                    input = {};
+            lambda.invoke({
+                FunctionName: 'slackService',
+                Payload: JSON.stringify(input)
+            }, function(err, data) {
+                if (err) {
+                result = err;
                 } else {
-                    input = {
-                    email: email
-                    };
+                result = JSON.parse(data.Payload);
                 }
-
-                lambda.invoke({
-                    FunctionName: 'slackService',
-                    Payload: JSON.stringify(input)
-                }, function(err, data) {
-                    if (err) {
-                    result = err;
-                    } else {
-                    result = JSON.parse(data.Payload);
-                    }
-                    if (result.body.ok) {
-                        $('#slackEmail').val('');
-                        $("#slackEmail").attr("placeholder", "Your invitation has been sent to "+email);
-                    } else if(result.body.error == "already_in_team"){
-                        $('#slackEmail').val('');
-                        $("#slackEmail").attr("placeholder", "This email is already subscribed");
-                    }else if(result.body.error == "already_invited"){
-                        $('#slackEmail').val('');
-                        $("#slackEmail").attr("placeholder", "This email is already invited");
-                    }else{
-                        $('#slackEmail').val('');
-                        $("#slackEmail").attr("placeholder", "Something went wrong, try again!");
-                    }
-                });
-            }            
-            $(this).removeAttr("disabled");
-        }
-    });
+                $("#slackFailAlert").hide();
+                if (result.body.ok) {
+                    $("#slackSuccessAlert").show(); 
+                    $('#slackEmail').val('');
+                    $("#slackSuccessAlert").html( "Thank you for your interest in joining the Ballerina Slack Community. Please check your inbox for an invitation to join Slack.");
+                } else if(result.body.error == "already_in_team"){
+                    $("#slackSuccessAlert").show(); 
+                    $("#slackSuccessAlert").html( "This email is already subscribed.");
+                }else if(result.body.error == "already_invited"){
+                    $("#slackSuccessAlert").show(); 
+                    $("#slackSuccessAlert").html("This email is already invited.");
+                }else{
+                    $("#slackSuccessAlert").hide();
+                    $("#slackFailAlert").show();
+                    $("#slackFailAlert").html("Something went wrong, please try again.");
+                }
+            });
+        }            
+            
+    }
 
 
     //Lunr Search field
@@ -536,7 +569,38 @@ $(document).ready(function() {
         }
     });
 
+
+    //Contribute to Agenda
+    $("#agSuccessAlert").hide();
+    $("#agendaSubButton").click(function(event) {
+        event.preventDefault();
+        agendaContribution();
+    });
+
+    //Contribute to vlog
+    $("#vlSuccessAlert").hide();
+    $("#vlogSubButton").click(function(event) {
+        event.preventDefault();
+        vlogContribution();
+    });
+
+    //Contribute to blog
+    $("#blSuccessAlert").hide();
+    $("#blogSubButton").click(function(event) {
+        event.preventDefault();
+        blogContribution();
+    });
+
+    //reset button
+    $(".resetButton").click(function(event) {
+        $('form').trigger("reset");
+    });
+
 });
+
+function isUrlValid(url) {
+    return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+}
 
 function validate_redirection(path) {
     $('body').hide();
@@ -565,3 +629,205 @@ function validate_redirection(path) {
     }
     return redirection;
 }
+
+
+function agendaContribution() {
+    $("#agform-error").html("");
+    var email = $('#agendaEmail').val();
+    var name = $('#agendaName').val();
+    var namesegs = name.split(" ");
+    var firstname = namesegs[0];
+    var lastname = "";
+    if(typeof namesegs[1] !== "undefined"){lastname = namesegs[1];}
+
+    var company = $('#agendaCompany').val();
+
+    var contribution = $('#selectAgendaOption').val();
+    
+    var submission = "";
+
+if(contribution == "oNewsletter"){
+    var nltopic = $('#agendaTopic').val();
+    var nlcontent = $('#agendaContent').val();
+    submission = "Newsletter: Topic : "+ nltopic +", Content : " + nlcontent;
+}else{
+    var topic = $('#agendaCallTopic').val();
+    var content = $('#agendaCallArticle').val();
+    var duration = $('#agendaCallDuration').val();
+    submission = "Community Call: Topic : "+ topic +", Content : " + content + "Duration : "+duration;
+}
+    $('#subscribeUserMessage').remove("");
+    if (email == "" || name == "") {
+        $("#agform-error").text("Please fill the required details of your contribution.");
+        $("#agform-error").addClass("cShowBlock");
+    } else if (!isEmail(email)) {
+        $("#agform-error").text("Please enter a valid email.");
+        $("#agform-error").addClass("cShowBlock");
+    } else if (contribution == "oNewsletter" && (nltopic == "" || nlcontent == "")) {
+            $("#agform-error").text("Please enter the newsletter details.");
+            $("#agform-error").addClass("cShowBlock");
+        
+    }else if (contribution == "oCommcall" && (topic == "" || content == "" || duration == "")) {
+            $("#agform-error").text("Please enter the community call details.");
+            $("#agform-error").addClass("cShowBlock");
+        
+    }else {
+        $('#agendaContribute').trigger("reset");
+        $(".pdframe").html("<iframe src='https://go.pardot.com/l/142131/2021-08-25/9sy26w?email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&company=" + company + "&submission=" + submission + "'></iframe>");
+        $("#agSuccessAlert").show();
+        $("#agendaContribute").hide();
+        //$("#form-status").addClass("cShowBlock");
+        $("#agform-error").removeClass("cShowBlock");
+        
+    }
+    return;
+}
+
+function vlogContribution() {
+    $("#vlform-error").html("");
+    var email = $('#vlEmail').val();
+    var name = $('#vlName').val();
+    var namesegs = name.split(" ");
+    var firstname = namesegs[0];
+    var lastname = "";
+    if(typeof namesegs[1] !== "undefined"){lastname = namesegs[1];}
+    var vlogCount = $('#selectOption2').val();
+
+    var submission = "";
+
+    var vLink1 = $('#rsuggested-topic1').val();
+    var vLink2 = $('#rsuggested-topic2').val();
+    var vLink3 = $('#rsuggested-topic3').val();
+
+    if(vLink1 != ""){
+        submission += "Link1 : "+ vLink1 ;
+    }
+    if(vLink2 != ""){
+        submission += ", Link 2 "+ vLink2 ;
+    }
+    if(vLink3 != ""){
+        submission += ", Link3 : "+ vLink3 ;
+    }
+    
+
+    if (email == "" || name == "") {
+        $("#vlform-error").text("Please fill the required details of your contribution.");
+        $("#vlform-error").addClass("cShowBlock");
+    } else if (!isEmail(email)) {
+        $("#vlform-error").text("Please enter a valid email.");
+        $("#vlform-error").addClass("cShowBlock");
+    } else if (vlogCount == "oneVlog" && (vLink1 == "")) {
+            $("#vlform-error").text("Please add the vlog details.");
+            $("#vlform-error").addClass("cShowBlock");
+        
+    }else if (vlogCount == "twoVlogs" && (vLink2 == "")) {
+        $("#vlform-error").text("Please add the vlog details.");
+        $("#vlform-error").addClass("cShowBlock");
+    
+    }else if (vlogCount == "threeVlogs" && (vLink3 == "")) {
+        $("#vlform-error").text("Please add the vlog details.");
+        $("#vlform-error").addClass("cShowBlock");
+
+    }else if ((vlogCount == "oneVlog" && !isUrlValid(vLink1)) || 
+    ((vlogCount == "twoVlogs") && (!isUrlValid(vLink1) || !isUrlValid(vLink2))) || 
+    (vlogCount == "threeVlogs" && !isUrlValid(vLink1) || !isUrlValid(vLink2) || !isUrlValid(vLink3))) {
+        $("#vlform-error").text("Please add a valid vlog link.");
+        $("#vlform-error").addClass("cShowBlock");
+
+    }else {
+        $('#vlogContribute').trigger("reset");
+        $(".pdframe").html("<iframe src='https://go.pardot.com/l/142131/2021-08-25/9sy271?email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&submission=" + submission + "'></iframe>");
+        $("#vlSuccessAlert").show();
+        $('#vlogContribute').hide();
+        //$("#form-status").addClass("cShowBlock");
+        $("#vlform-error").removeClass("cShowBlock");
+        
+    }
+    return;
+}
+
+function blogContribution() {
+    $("#blform-error").html("");
+    var email = $('#blEmail').val();
+    var name = $('#blName').val();
+    var namesegs = name.split(" ");
+    var firstname = namesegs[0];
+    var lastname = "";
+    if(typeof namesegs[1] !== "undefined"){lastname = namesegs[1];}
+    var blogCount = $('#selectOption1').val();
+
+    var submission = "";
+
+    var bLink1 = $('#blsuggested-topic1').val();
+    var bLink2 = $('#blsuggested-topic2').val();
+    var bLink3 = $('#blsuggested-topic3').val();
+
+    if(bLink1 != ""){
+        submission += "Link1 : "+ bLink1 ;
+    }
+    if(bLink2 != ""){
+        submission += ", Link 2 : "+ bLink2 ;
+    }
+    if(bLink3 != ""){
+        submission += ", Link3 : "+ bLink3 ;
+    }
+    
+
+    if (email == "" || name == "") {
+        $("#blform-error").text("Please fill the required details of your contribution.");
+        $("#blform-error").addClass("cShowBlock");
+    } else if (!isEmail(email)) {
+        $("#blform-error").text("Please enter a valid email.");
+        $("#blform-error").addClass("cShowBlock");
+    } else if (blogCount == "oneBlog" && (bLink1 == "")) {
+            $("#blform-error").text("Please add the blog details.");
+            $("#blform-error").addClass("cShowBlock");
+        
+    }else if (blogCount == "twoBlogs" && (bLink2 == "")) {
+        $("#blform-error").text("Please add the blog details.");
+        $("#blform-error").addClass("cShowBlock");
+    
+    }else if (blogCount == "threeBlogs" && (bLink3 == "")) {
+        $("#blform-error").text("Please add the blog details.");
+        $("#blform-error").addClass("cShowBlock");
+
+    }else if ((blogCount == "oneBlog" && !isUrlValid(bLink1)) || 
+    ((blogCount == "twoBlogs") && (!isUrlValid(bLink1) || !isUrlValid(bLink2))) || 
+    (blogCount == "threeBlogs" && !isUrlValid(bLink1) || !isUrlValid(bLink2) || !isUrlValid(bLink3))) {
+    $("#blform-error").text("Please add a valid blog link.");
+        $("#blform-error").addClass("cShowBlock");
+
+    }else {
+        $('#blogContribute').trigger("reset");
+        $(".pdframe").html("<iframe src='https://go.pardot.com/l/142131/2021-08-25/9sy26y?email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&submission=" + submission + "'></iframe>");
+        $("#blSuccessAlert").show();
+        $('#blogContribute').hide();
+        //$("#form-status").addClass("cShowBlock");
+        $("#blform-error").removeClass("cShowBlock");
+        
+    }
+    return;
+}
+
+$(function() {
+    // var pathname = window.location.href;
+    var hash = window.location.hash;
+    
+    if (hash == '#consuming-services' ||
+        hash == '#working-with-data' ||
+        hash == '#restful-api' ||
+        hash == '#grpc-api' || 
+        hash == '#graphql-api' ||
+        hash == '#kafka-consumer' ||
+        hash == '#working-with-databases') {
+        
+                
+            $(".tab-pane").removeClass("active in");
+            $(".cSamplesList > li").removeClass('active');
+            $('a').filter("[href='"+hash+"']").parent().addClass('active')
+            $(hash).addClass("active in");
+            $("#ballerina-in-action")[0].scrollIntoView();       
+    
+    }
+
+});

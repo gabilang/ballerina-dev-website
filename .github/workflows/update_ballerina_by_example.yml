@@ -1,4 +1,4 @@
-name: Create PR for new Ballerina by examples pages
+name: Create PR for new Ballerina By Example pages
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - '_data/stable-latest/**'
+  workflow_dispatch:
 
 jobs:
   bbe-gen:
@@ -33,9 +34,12 @@ jobs:
     - name: Clone ballerina-release
       run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-release.git
 
+
     - name: Generate BBEs
       run: |
         cd ballerina-release
+
+        git checkout ballerina-1.2.x
 
         BALLERINA_VERSION="`jq -r '.version' ../_data/stable-latest/metadata.json`"
         array=($(echo $BALLERINA_VERSION | tr "." "\n"))
@@ -49,18 +53,18 @@ jobs:
           exit 1
         fi
 
-        mv ballerina-${BALLERINA_VERSION}/distributions/jballerina-${BALLERINA_VERSION}/examples/index.json ballerina-${BALLERINA_VERSION}/distributions/jballerina-${BALLERINA_VERSION}/examples/all-bbes.json
+        cp ballerina-${BALLERINA_VERSION}/distributions/jballerina-${BALLERINA_VERSION}/examples/index.json ballerina-${BALLERINA_VERSION}/distributions/jballerina-${BALLERINA_VERSION}/examples/all-bbes.json
 
         echo "------------------------------------------------------------------------------------------------------------------------------------------------"
         echo "go run ballerinaByExample/tools/generate.go ballerina-$BALLERINA_VERSION/distributions/jballerina-$BALLERINA_VERSION/examples $SITE_VERSION $BBE_GEN_DIR $GEN_FOR_JEKYLL $IS_LATEST_VERSION"
-        go run ballerinaByExample/tools/generate.go "ballerina-${BALLERINA_VERSION}/distributions/jballerina-${BALLERINA_VERSION}/examples" $SITE_VERSION "by-example" "true" "true"
+        go run ballerinaByExample/tools/generate.go "ballerina-${BALLERINA_VERSION}/distributions/jballerina-${BALLERINA_VERSION}/examples" $SITE_VERSION "by-example" "true" "false" "true"
         echo "....Completed building BBE Site...."
 
     - name: Remove old examples file
-      run: git rm -r learn/by-example
+      run: git rm -r 1.2/learn/by-example
 
     - name: Copy newly generated examples file
-      run: cp -r ballerina-release/by-example learn/
+      run: cp -r ballerina-release/by-example 1.2/learn/
 
     - name: Push changes for new BBEs
       run: |
@@ -70,8 +74,8 @@ jobs:
         git config --global user.email "ballerina-bot@ballerina.org"
         git config --global user.name "ballerina-bot"
         
-        git add learn/by-example
-        git commit --allow-empty -m 'Update Ballerina by examples'
+        git add 1.2/learn/by-example
+        git commit --allow-empty -m 'Update Ballerina By Example'
         
         git push --set-upstream origin automate-bbes-$GITHUB_SHA
         echo 'Successfully pushed to automate-bbes-$GITHUB_SHA branch'
@@ -80,6 +84,6 @@ jobs:
       shell: bash
       run: |
         curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-        bin/hub pull-request -m '[Automated] Update Ballerina by examples(BBEs) pages for the new release'
+        bin/hub pull-request -m '[Automated] Update Ballerina By Example(BBEs) pages for the new release'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

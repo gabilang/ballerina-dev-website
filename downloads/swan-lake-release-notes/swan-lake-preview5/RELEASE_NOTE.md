@@ -1,6 +1,10 @@
 ---
-layout: ballerina-blank-page
-title: Release Note
+layout: ballerina-left-nav-release-notes
+title: Swan Lake Preview 5
+permalink: /downloads/swan-lake-release-notes/swan-lake-preview5/
+active: swan-lake-preview5
+redirect_from: 
+    - /downloads/swan-lake-release-notes/swan-lake-preview5
 ---
 ### Overview of Ballerina Swan Lake Preview 5 
 
@@ -31,7 +35,7 @@ You can use the update tool to update to Ballerina Swan Lake Preview 5 as follow
 
 #### For existing users
 
-If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina Update Tool](http://ballerina.io/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
+If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](http://ballerina.io/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
                         
 > `ballerina update`
 
@@ -225,7 +229,7 @@ isolated function validateArray() {
 
 The Ballerina runtime Java API package name has been changed from `org.ballerinalang.jvm` to `io.ballerina.runtime`. A new `io.ballerina.api.TypeCreator` API is introduced to create Ballerina types at runtime.
 
-#### Standard Library
+#### Standard library
 
 ##### HTTP client remote method API improvement with data-binding support
 
@@ -252,7 +256,7 @@ The SQL data type of the `Out` Parameter can now be defined in the SQL procedure
 sql:OutParameter filterId = new;
 ```
 
-**New Syntax**
+**New syntax**
 ```ballerina
 sql:IntegerOutParameter filterId = new;
 ```
@@ -261,7 +265,7 @@ sql:IntegerOutParameter filterId = new;
 
 The task module now supports the misfire policy. A new `misfirePolicy` field has been introduced in the `task:TimerConfiguration` and `task:AppointmentConfiguration` to specify the policy.
 
-#### Developer Tools
+#### Developer tools
 
 ##### Code formatting
 
@@ -270,7 +274,7 @@ Improved formatting support for all the language features. The new formatter als
 - Range formatting
 - Line wrapping
 
-#### Known Issues
+#### Known issues
 
-- The [WebSub](/learn/api-docs/ballerina/websub/index.html) standard library module (ballerina/websub) is not working with Swan Lake Preview 5.
-- The [Socket](/learn/api-docs/ballerina/socket/index.html) standard library module (ballerina/socket) can only be built offline (i.e., with the `--offline` parameter) with Swan Lake Preview 5.
+- The [WebSub](https://docs.central.ballerina.io/ballerina/websub/latest/) standard library module (ballerina/websub) is not working with Swan Lake Preview 5.
+- The [Socket](https://docs.central.ballerina.io/) standard library module (ballerina/socket) can only be built offline (i.e., with the `--offline` parameter) with Swan Lake Preview 5.

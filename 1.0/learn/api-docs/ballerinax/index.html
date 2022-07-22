@@ -5,12 +5,17 @@
    <meta name="author" content="WSO2, Inc.">
    <link rel="shortcut icon" href="/img/favicon.ico">
    <title>Ballerina.io - API Docs</title>
-   <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<<<<<<< HEAD
+   <script src="/js/latest-jquery.js"></script>
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+=======
+   <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+   <link rel="stylesheet" href="/css/latest-bootstrap.css">
+>>>>>>> 9d6f70117c5d440fe8d8801d0b89537a73306e4e
    <!-- Optional theme -->
-   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+   <link rel="stylesheet" href="/css/latest-bootstrap-theme.css">
    <!-- Latest compiled and minified JavaScript -->
-   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   <script src="/js/latest-bootstrap.js"></script>
    <!--      <script src="../../js/jquery-2.1.1.min.js"></script>-->
    <!--  <script src="../../js/modernizr-2.8.3.min.js"></script>
       <script type="text/javascript" src="../../js/highlight.pack.js"></script>-->
@@ -22,6 +27,41 @@
    <link rel="stylesheet" href="/css/theme.css" type="text/css" />
    <link rel="stylesheet" href="/css/theme_extra.css" type="text/css" />
    <link rel="stylesheet" href="/css/ballerina-io.css">
+<style>
+      .cVersionChangeBanner{
+    color: #000000;
+    background-color: #fcdf4a !important;
+    width: 100%;
+    display: inline-block;
+    padding: 10px 0px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+    transition : all 0.3s;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 9;
+    }
+    .cInfoBannerLink{
+        color: #000000;
+        text-decoration: underline;
+    }
+       .cInfoBannerLink:hover{
+        color: #545454 !important;
+        text-decoration: underline !important;
+    }
+   
+    .content-wrapper{
+        padding-top: 2em !important;
+    }
+    @media only screen and (max-width: 992px) {
+        .content-wrapper {padding-top: 7em !important}
+
+    }
+</style>
+
    <link rel="stylesheet" href="/css/ballerina-io-docs.css">
    <link rel="stylesheet" href="/css/bbe-page.css">
    <script src="docerina-theme/js/jquery.nanoscroller.min.js"></script>
@@ -44,7 +84,13 @@
          <div class="cTopLine"></div>
       </div>
    </div>
-   <div class="row cBallerina-io-Nav" id="iMainNavigation">
+        <div class="cVersionChangeBanner">
+       This API documentation is for Ballerina 1.0.0. <a href="https://lib.ballerina.io" class="cInfoBannerLink">View API documentation for the latest release</a>.
+    </div>
+    <div class="row cBallerina-io-Nav" id="iMainNavigation" style="top:50px">
+
+
+
    </div>
    <div class="row cBallerina-io-Logo-row">
       <div class="container">

@@ -174,9 +174,10 @@ $(document).ready(function() {
     var footer = '<div class="container">' +
         '<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 cBallerina-io-left-col cBallerinaFooterLinks">' +
         '<ul>' +
-        '<li><a class="cBioFooterLink" href="/downloads">Download</a></li>' +
-        '<li><a class="cBioFooterLink" href="https://github.com/ballerina-lang/ballerina/blob/master/LICENSE">Code License</a></li>' +
-        '<li><a class="cBioFooterLink" href="/license-of-site">Site License</a></li>' +
+        '<li><a class="cBioFooterLink" href="/downloads">DOWNLOAD</a></li>' +
+        '<li><a class="cBioFooterLink" href="/community/#report-issues">REPORT ISSUES</a></li>' +
+        '<li><a class="cBioFooterLink" href="https://github.com/ballerina-lang/ballerina/blob/master/LICENSE">CODE LICENSE</a></li>' +
+        '<li><a class="cBioFooterLink" href="/license-of-site">SITE LICENSE</a></li>' +
         '<li><a class="cBioFooterLink" href="/terms-of-service">TERMS OF SERVICE</a></li>' +
         '<li><a class="cBioFooterLink" href="/privacy-policy">PRIVACY POLICY</a></li>' +
         '</ul>' +
@@ -201,6 +202,7 @@ $(document).ready(function() {
         '<li><a class="cBioFooterLink" href="https://stackoverflow.com/questions/tagged/ballerina" target="_blank"><img src="/img/stackoverflow.svg"/></a></li>' +
         '<li><a class="cBioFooterLink" href="https://twitter.com/ballerinaplat" target="_blank"><img src="/img/twitter.svg"/></a></li>' +
         '<li><a class="cBioFooterLink" href="/open-source/slack/"><img src="/img/slack.svg"/></a></li>' +
+        '<li><a class="cBioFooterLink" href="https://www.youtube.com/c/Ballerinalang"><img src="/img/youtube.svg"/></a></li>' +
         '</ul>' +
         '<div class="pdframe"></div>' +
         '</div>' +

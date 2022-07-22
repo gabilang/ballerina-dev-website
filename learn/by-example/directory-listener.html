@@ -1,41 +1,49 @@
 ---
-layout: ballerina-example-page
-title: Directory Listener
-description: Ballerina by Example is a hands-on introduction to Ballerina using annotated example programs. Check out the first example or browse the full list below.
+layout: ballerina-example-page-old
+title: Directory listener
+description: This BBE shows how the Ballerina directory service monitors any modifications done to files inside a specific directory.
+keywords: ballerina, ballerina by example, BBE, file, directory, directory listener
 permalink: /learn/by-example/directory-listener
+active: directory-listener
 redirect_from:
-  - /v1-2/learn/by-example/directory-listener
-  - /v1-2/learn/by-example/directory-listener.html
+  - /swan-lake/learn/by-example/directory-listener
+  - /swan-lake/learn/by-example/directory-listener.html
 ---
 <div class="row cBallerina-io-Gray-row">
         <div class="container cBallerinaBySampleContainer">
             <div class="FullCode">
                 <div class="highlight"><pre><span class="kn">import</span> <span class="nx">ballerina</span><span class="o">/</span><span class="nx">file</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nx">ballerina</span><span class="o">/</span><span class="nx">log</span><span class="p">;</span>
+
+<span class="c1">// In this example, the listener monitors any modifications done to a specific directory.</span>
+<span class="c1">// Before running the example, change the value of the &#39;path&#39; field </span>
+<span class="c1">// to indicate the path of the directory that you want the listener to monitor.</span>
+<span class="c1">// As the recursive property is set to false,</span>
+<span class="c1">// the listener does not monitor the child directories of the main directory</span>
+<span class="c1">// that it listens to.</span>
 <span class="nx">listener</span> <span class="nx">file</span><span class="p">:</span><span class="nx">Listener</span> <span class="nx">inFolder</span> <span class="p">=</span> <span class="nx">new</span> <span class="p">({</span>
     <span class="nx">path</span><span class="p">:</span> <span class="s">&quot;/home/ballerina/fs-server-connector/observed-dir&quot;</span><span class="p">,</span>
     <span class="nx">recursive</span><span class="p">:</span> <span class="kc">false</span>
 <span class="p">});</span>
-<span class="kd">service</span> <span class="nx">localObserver</span> <span class="nx">on</span> <span class="nx">inFolder</span> <span class="p">{</span>
-    <span class="kd">resource</span> <span class="kd">function</span> <span class="nx">onCreate</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span><span class="nx">FileEvent</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">string</span> <span class="nx">msg</span> <span class="p">=</span> <span class="s">&quot;Create: &quot;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-        <span class="nx">log</span><span class="p">:</span><span class="nx">printInfo</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+
+<span class="c1">// The directory listener should have at least one of these predefined resources.</span>
+<span class="kd">service</span> <span class="s">&quot;localObserver&quot;</span> <span class="nx">on</span> <span class="nx">inFolder</span> <span class="p">{</span>
+
+    <span class="c1">// This function is invoked once a new file is created in the listening directory.</span>
+    <span class="nx">remote</span> <span class="kd">function</span> <span class="nx">onCreate</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span><span class="nx">FileEvent</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">:</span><span class="nx">printInfo</span><span class="p">(</span><span class="s">&quot;Create: &quot;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="kd">resource</span> <span class="kd">function</span> <span class="nx">onDelete</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span><span class="nx">FileEvent</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">string</span> <span class="nx">msg</span> <span class="p">=</span> <span class="s">&quot;Delete: &quot;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-        <span class="nx">log</span><span class="p">:</span><span class="nx">printInfo</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+
+    <span class="c1">// This function is invoked once an existing file is deleted from the listening directory.</span>
+    <span class="nx">remote</span> <span class="kd">function</span> <span class="nx">onDelete</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span><span class="nx">FileEvent</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">:</span><span class="nx">printInfo</span><span class="p">(</span><span class="s">&quot;Delete: &quot;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="kd">resource</span> <span class="kd">function</span> <span class="nx">onModify</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span><span class="nx">FileEvent</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">string</span> <span class="nx">msg</span> <span class="p">=</span> <span class="s">&quot;Modify: &quot;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-        <span class="nx">log</span><span class="p">:</span><span class="nx">printInfo</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+
+    <span class="c1">// This function is invoked once an existing file is modified in the listening directory.</span>
+    <span class="nx">remote</span> <span class="kd">function</span> <span class="nx">onModify</span><span class="p">(</span><span class="nx">file</span><span class="p">:</span><span class="nx">FileEvent</span> <span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">:</span><span class="nx">printInfo</span><span class="p">(</span><span class="s">&quot;Modify: &quot;</span> <span class="o">+</span> <span class="nx">m</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
     <span class="p">}</span>
-<span class="p">}</span><span class="err">#</span> <span class="nx">Before</span> <span class="nx">running</span> <span class="nx">the</span> <span class="nx">sample</span><span class="p">,</span> <span class="nx">create</span> <span class="nx">a</span> <span class="nx">new</span> <span class="nx">file</span> <span class="nx">called</span> <span class="s">`test1.txt`</span> <span class="nx">in</span> <span class="nx">the</span> <span class="nx">directory</span> <span class="nx">called</span> <span class="s">`observed-dir`</span> <span class="nx">and</span> <span class="nx">modify</span> <span class="nx">and</span> <span class="nx">delete</span> <span class="nx">it</span><span class="p">.</span>
-<span class="err">#</span> <span class="nx">To</span> <span class="nx">run</span> <span class="nx">this</span> <span class="nx">sample</span><span class="p">,</span> <span class="nx">navigate</span> <span class="nx">to</span> <span class="nx">the</span> <span class="nx">directory</span> <span class="nx">that</span> <span class="nx">contains</span> <span class="nx">the</span>
-<span class="err">#</span> <span class="s">`.bal`</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">and</span> <span class="nx">execute</span> <span class="nx">the</span> <span class="s">`ballerina run`</span> <span class="nx">command</span> <span class="nx">below</span><span class="p">.</span>
-<span class="nx">ballerina</span> <span class="nx">run</span> <span class="nx">directory_listener</span><span class="p">.</span><span class="nx">bal</span>
-<span class="nx">Create</span><span class="p">:</span> <span class="o">/</span><span class="nx">home</span><span class="o">/</span><span class="nx">ballerina</span><span class="o">/</span><span class="nx">fs</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="kd">connector</span><span class="o">/</span><span class="nx">observed</span><span class="o">-</span><span class="nx">dir</span><span class="o">/</span><span class="nx">test1</span><span class="p">.</span><span class="nx">txt</span>
-<span class="nx">Modify</span><span class="p">:</span> <span class="o">/</span><span class="nx">home</span><span class="o">/</span><span class="nx">ballerina</span><span class="o">/</span><span class="nx">fs</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="kd">connector</span><span class="o">/</span><span class="nx">observed</span><span class="o">-</span><span class="nx">dir</span><span class="o">/</span><span class="nx">test1</span><span class="p">.</span><span class="nx">txt</span>
-<span class="nx">Delete</span><span class="p">:</span> <span class="o">/</span><span class="nx">home</span><span class="o">/</span><span class="nx">ballerina</span><span class="o">/</span><span class="nx">fs</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="kd">connector</span><span class="o">/</span><span class="nx">observed</span><span class="o">-</span><span class="nx">dir</span><span class="o">/</span><span class="nx">test1</span><span class="p">.</span><span class="nx">txt</span>
+<span class="p">}</span>
 </pre></div>
 
             </div>
@@ -44,8 +52,11 @@ redirect_from:
                 <table class="cTopInfoContainer cTopControlsContainer">
                     <tr>
                         <td class="cLeftTD">
-                            <h2>Directory Listener</h2>
-                            <p><p>The <code>Directory Listener</code> is used to listen to a directory in the local file system. It notifies when new files are created in the directory or when the existing files are deleted or modified.</p>
+                            <h2>Directory listener</h2>
+                            <p><p>The <code>Directory Listener</code> is used to listen to a directory in the local file system.
+ It notifies when new files are created in the directory or when the existing files are deleted or modified.<br/><br/>
+ For more information on the underlying module,
+ see the <a href="https://docs.central.ballerina.io/ballerina/file/latest/">File module</a>.</p>
 </p>
 
                         </td>
@@ -53,16 +64,16 @@ redirect_from:
                             <div class="cTopButtonContainer">
                                 
                                 <div class="cButtonInfoContainer">
-                                    <a class="prev" href="websub-service-integration-sample.html">
+                                    <a class="prev" href="temp-files-directories.html">
                                         <span>< PREVIOUS</span>
-                                        <p>Service Integration Sample</p>
+                                        <p>Temp files and directories</p>
                                     </a>
                                 </div>
                                  
                                 <div class="cButtonInfoContainer">
-                                    <a class="next" href="jdbc-client-crud-operations.html">
+                                    <a class="next" href="random-numbers.html">
                                         <span>NEXT ></span>
-                                        <p>JDBC Client CRUD Operations</p>
+                                        <p>Random numbers</p>
                                     </a>
                                 </div>
                                 
@@ -73,79 +84,57 @@ redirect_from:
             </div>
             <div class="example" id="directory-listener">
                 <div class="col-xs-12 col-sm-12 col-md-12 cBBETable-container cCodeLeft">
-                    <table class="cTopControlsContainer">
-                        <tr>
-                            <td class="cLeftTD">
+                    <div class="cTopControlsContainer">
+                        <div class="cTopControlsRow">
+                            <div class="cLeftTD">
                                 <div class="cBBE-links">
                                     <ul>
-                                        <!--<li>
-                                            <a class="copy"><img src="/img/copy-icon.svg" /></a>
-                                        </li>-->
                                         <li>
-                                            <a target="_blank" href="https://github.com/ballerina-platform/ballerina-lang/tree/ballerina-1.2.x/examples/directory-listener/"><img src="/img/github-logo-green.svg" /></a>
+                                            <a class="copy"><img src="/img/copy-icon.svg" /></a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href="https://github.com/ballerina-platform/ballerina-distribution/tree/v2201.1.0/examples/directory-listener/"><img src="/img/github-logo-green.svg" /></a>
                                         </li>
                                         
                                     </ul>
                                 </div>
-                            </td>
-                            <td></td>
-                        </tr>
-                    </table>
-
-                    <table class="cTopBorder-table">
-                        <tr>
-                            <td class="cCodeTD"></td>
-                            <td class="cDescTD"></td>
-                        </tr>
-                    </table>
-
+                            </div> 
+                        </div>
+                    </div>
+              
                     
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
+                    <div class="codeSnippeset">
 
-                    <div>
-
-                        <table class="cBBE-body">
+                        <div class="cBBE-body">
                             
-                            <tr class="cTR">
+                            <div class="cTR">
 
-                                <td class="code leading">
+                                <div class="code leading">
                                     <div class="highlight"><pre><code class=language-ballerina>import ballerina/file;
 import ballerina/log;
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR hover-enable">
+                            <div class="cTR hover-enable">
 
-                                <td class="code leading">
+                                <div class="code leading">
                                     <div class="highlight"><pre><code class=language-ballerina>listener file:Listener inFolder = new ({
     path: &quot;/home/ballerina/fs-server-connector/observed-dir&quot;,
     recursive: false
 });
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
                                     <div class="cCodeDesription">
                                         <div>
-                                            <p>In this example, the listener monitors any modifications done to a specific directoy.
+                                            <p>In this example, the listener monitors any modifications done to a specific directory.
  Before running the example, change the value of the &lsquo;path&rsquo; field
  to indicate the path of the directory that you want the listener to monitor.
  As the recursive property is set to false,
@@ -155,17 +144,17 @@ import ballerina/log;
                                         </div>
                                     </div>
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR hover-enable">
+                            <div class="cTR hover-enable">
 
-                                <td class="code leading">
-                                    <div class="highlight"><pre><code class=language-ballerina>service localObserver on inFolder {
+                                <div class="code leading">
+                                    <div class="highlight"><pre><code class=language-ballerina>service &quot;localObserver&quot; on inFolder {
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
                                     <div class="cCodeDesription">
                                         <div>
@@ -174,118 +163,102 @@ import ballerina/log;
                                         </div>
                                     </div>
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR hover-enable">
+                            <div class="cTR hover-enable">
 
-                                <td class="code leading">
-                                    <div class="highlight"><pre><code class=language-ballerina>    resource function onCreate(file:FileEvent m) {
-        string msg = &quot;Create: &quot; + m.name;
-        log:printInfo(msg);
+                                <div class="code leading">
+                                    <div class="highlight"><pre><code class=language-ballerina>    remote function onCreate(file:FileEvent m) {
+        log:printInfo(&quot;Create: &quot; + m.name);
     }
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
                                     <div class="cCodeDesription">
                                         <div>
-                                            <p>This resource is invoked once a new file is created in the listening directory.</p>
+                                            <p>This function is invoked once a new file is created in the listening directory.</p>
 
                                         </div>
                                     </div>
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR hover-enable">
+                            <div class="cTR hover-enable">
 
-                                <td class="code leading">
-                                    <div class="highlight"><pre><code class=language-ballerina>    resource function onDelete(file:FileEvent m) {
-        string msg = &quot;Delete: &quot; + m.name;
-        log:printInfo(msg);
+                                <div class="code leading">
+                                    <div class="highlight"><pre><code class=language-ballerina>    remote function onDelete(file:FileEvent m) {
+        log:printInfo(&quot;Delete: &quot; + m.name);
     }
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
                                     <div class="cCodeDesription">
                                         <div>
-                                            <p>This resource is invoked once an existing file is deleted from the listening directory.</p>
+                                            <p>This function is invoked once an existing file is deleted from the listening directory.</p>
 
                                         </div>
                                     </div>
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                            <tr class="cTR hover-enable">
+                            <div class="cTR hover-enable">
 
-                                <td class="code">
-                                    <div class="highlight"><pre><code class=language-ballerina>    resource function onModify(file:FileEvent m) {
-        string msg = &quot;Modify: &quot; + m.name;
-        log:printInfo(msg);
+                                <div class="code">
+                                    <div class="highlight"><pre><code class=language-ballerina>    remote function onModify(file:FileEvent m) {
+        log:printInfo(&quot;Modify: &quot; + m.name);
     }
 }
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
                                     <div class="cCodeDesription">
                                         <div>
-                                            <p>This resource is invoked once an existing file is modified in the listening directory.</p>
+                                            <p>This function is invoked once an existing file is modified in the listening directory.</p>
 
                                         </div>
                                     </div>
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                        </table>
+                        </div>
                     </div>
                     
-                        
-                            
-                                
-                            
-                        
+                    <div class="codeSnippeset">
 
-                    <div>
-
-                        <table class="cBBE-body">
+                        <div class="cBBE-body">
                             
-                            <tr class="cTR cOutputTr">
+                            <div class="cTR cOutputTr">
 
-                                <td class="code cOutput">
-                                    <div class="highlight"><pre><code class=shell-session># Before running the sample, create a new file called `test1.txt` in the directory called `observed-dir` and modify and delete it.
-# To run this sample, navigate to the directory that contains the
-# `.bal` file, and execute the `ballerina run` command below.
-ballerina run directory_listener.bal
-Create: /home/ballerina/fs-server-connector/observed-dir/test1.txt
-Modify: /home/ballerina/fs-server-connector/observed-dir/test1.txt
-Delete: /home/ballerina/fs-server-connector/observed-dir/test1.txt
+                                <div class="code cOutput">
+                                    <div class="highlight"><pre><code class=shell-session># After running the sample, create a new file called `test1.txt` in the directory called `observed-dir`, modify it, and delete it.
+bal run directory_listener.bal
+time = 2020-12-12 13:49:08,497 level = INFO  module = &quot;&quot; message = &quot;Create: /home/ballerina/fs-server-connector/observed-dir/test1.txt&quot;
+time = 2020-12-12 13:49:41,709 level = INFO  module = &quot;&quot; message = &quot;Modify: /home/ballerina/fs-server-connector/observed-dir/test1.txt&quot;
+time = 2020-12-12 13:50:04,997 level = INFO  module = &quot;&quot; message = &quot;Delete: /home/ballerina/fs-server-connector/observed-dir/test1.txt&quot;
 </code></pre></div>
 
-                                </td>
-                                <td class="docs">
+                                </div>
+                                <div class="docs">
                                     
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                             
-                        </table>
+                        </div>
                     </div>
                     
 
 
-                    <table class="cBottomBorder-table">
-                        <tr>
-                            <td class="cCodeTD"></td>
-                            <td class="cDescTD"></td>
-                        </tr>
-                    </table>
+                     
                 </div>
             </div>
         </div>
@@ -294,17 +267,21 @@ Delete: /home/ballerina/fs-server-connector/observed-dir/test1.txt
      <script>
             $(document).ready(function() {
 
-                hljs.initHighlightingOnLoad();
+                // hljs.initHighlightingOnLoad();
 
                 $(".switch").click(function() {
                     $(".cCodeRight").toggleClass('cShow');
                     $(".cCodeLeft").toggleClass('cHide');
                 });
 
+                // get code text
+                var codeSnippet = document.getElementsByClassName('FullCode')[0];
+                var codeText = codeSnippet.getElementsByTagName('pre')[0].textContent;
+
                 // register "copy to clipboard" event to elements with "copy" class
                 var clipboard = new ClipboardJS('.copy', {
                     text: function(trigger) {
-                        return $('.FullCode').find('pre').text();
+                        return codeText;
                     }
                 });
 
