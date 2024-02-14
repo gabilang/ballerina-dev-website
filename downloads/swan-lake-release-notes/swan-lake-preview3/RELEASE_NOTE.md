@@ -14,7 +14,7 @@ You can use the update tool to update to Ballerina Swan Lake Preview 3 as follow
 
 **For existing users:**
 
-If you are already using jBallerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](http://ballerina.io/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
+If you are already using jBallerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/learn/update-tool/). To do this, first, execute the command below to get the update tool updated to its latest version. 
                         
 > `ballerina update`
 
@@ -212,7 +212,7 @@ Furthermore, the line with the error would be replaced with a function call as s
 Grade grades = mapNameAndGradeToGrade(student);
 ```
 
-For more information, see [Code Actions](https://marketplace.visualstudio.com/items?itemName=WSO2.ballerina).
+For more information, see [Code actions](https://wso2.com/ballerina/vscode/docs/write-the-code/code-actions/).
 
 ##### Test framework
 
@@ -332,4 +332,4 @@ public function fromHttpToQueue(af:Context ctx,
 }
 ```
 
-For more information, see [Azure Functions](https://ballerina.io/swan-lake/learn/deployment/azure-functions/).
+For more information, see [Azure Functions](https://ballerina.io/learn/azure-functions/).

@@ -1,0 +1,18 @@
+{
+  "title": "Error handling",
+  "description": "This example demonstrates handling errors in a Ballerina GraphQL service.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "graphql",
+    "service",
+    "error handling"
+  ],
+  "permalink": "/learn/by-example/graphql-service-error-handling",
+  "active": "graphql-service-error-handling",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/graphql-service-error-handling",
+    "/swan-lake/learn/by-example/graphql-service-error-handling.html"
+  ]
+}

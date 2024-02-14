@@ -1,0 +1,18 @@
+{
+  "title": "Record as output object",
+  "description": "This example demonstrates returning record types from the resource or remote methods of a GraphQL service.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "graphql",
+    "service",
+    "record types"
+  ],
+  "permalink": "/learn/by-example/graphql-returning-record-values",
+  "active": "graphql-returning-record-values",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/graphql-returning-record-values",
+    "/swan-lake/learn/by-example/graphql-returning-record-values.html"
+  ]
+}

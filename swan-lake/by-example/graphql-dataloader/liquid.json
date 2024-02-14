@@ -1,0 +1,19 @@
+{
+  "title": "Dataloader",
+  "description": "This example demonstrates engaging data loaders with a GraphQL service.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "graphql",
+    "dataloader",
+    "batching",
+    "caching"
+  ],
+  "permalink": "/learn/by-example/graphql-dataloader",
+  "active": "graphql-dataloader",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/graphql-dataloader",
+    "/swan-lake/learn/by-example/graphql-dataloader.html"
+  ]
+}

@@ -41,11 +41,11 @@ This Alpha2 release includes the language features planned for the Ballerina Swa
 
 ### Updating Ballerina
 
-You can use the [update tool](/learn/keeping-ballerina-up-to-date/) to update to Ballerina Swan Lake Alpha2 as follows.
+You can use the [update tool](/learn/update-tool/) to update to Ballerina Swan Lake Alpha2 as follows.
 
 #### For existing users
 
-If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
+If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/learn/update-tool/). To do this, first, execute the command below to get the update tool updated to its latest version. 
 
 > `bal update`
 
@@ -444,7 +444,7 @@ Extended the private key support for JWT signature generation and public cert su
 Introduced a configuration in the log module to set the output format to JSON. You need to add the entry below in the `Config.toml` file to set the output format to JSON.
 
 ```toml
-[log]
+[ballerina.log]
 format = "json"
 ```
 

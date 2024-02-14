@@ -1,0 +1,20 @@
+{
+  "title": "SSL/TLS",
+  "description": "This example demonstrates producing a message to a NATS subject using a secured connection.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "nats",
+    "basic",
+    "ssl",
+    "tls",
+    "authentication"
+  ],
+  "permalink": "/learn/by-example/nats-client-secure-connection",
+  "active": "nats-client-secure-connection",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/nats-client-secure-connection",
+    "/swan-lake/learn/by-example/nats-client-secure-connection.html"
+  ]
+}

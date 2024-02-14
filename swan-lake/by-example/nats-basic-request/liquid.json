@@ -1,0 +1,20 @@
+{
+  "title": "Send request message",
+  "description": "This example demonstrates sending a request to a NATS subject in a basic NATS server.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "nats",
+    "basic",
+    "server",
+    "request",
+    "reply"
+  ],
+  "permalink": "/learn/by-example/nats-basic-request",
+  "active": "nats-basic-request",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/nats-basic-request",
+    "/swan-lake/learn/by-example/nats-basic-request.html"
+  ]
+}

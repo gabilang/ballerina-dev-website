@@ -1,0 +1,18 @@
+{
+  "title": "Service interceptors",
+  "description": "This example demonstrates using interceptors on GraphQL services to execute custom logic.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "graphql",
+    "service",
+    "interceptors"
+  ],
+  "permalink": "/learn/by-example/graphql-service-interceptors",
+  "active": "graphql-service-interceptors",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/graphql-service-interceptors",
+    "/swan-lake/learn/by-example/graphql-service-interceptors.html"
+  ]
+}

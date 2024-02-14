@@ -15,7 +15,7 @@ You can use the update tool to update to Ballerina Swan Lake Preview 1 as follow
 
 **For existing users:**
 
-If you are already using jBallerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
+If you are already using jBallerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/learn/update-tool/). To do this, first, execute the command below to get the update tool updated to its latest version. 
                         
 > `ballerina update`
 
@@ -791,7 +791,7 @@ The new mocking API simplifies function and object mocking in unit tests via the
 The mocking features can be used to control the behavior of functions and objects by defining return values or
  replacing the entire object or function with a user-defined equivalent. This feature will help you to test your Ballerina code independently 
 from other modules and external endpoints. For the complete list of available mocking features, see 
-[API Documentation of the test module](https://docs.central.ballerina.io/ballerina/test/latest/).
+[API Documentation of the `test` module](https://lib.ballerina.io/ballerina/test/latest/).
 
 ###### Function mocking
 

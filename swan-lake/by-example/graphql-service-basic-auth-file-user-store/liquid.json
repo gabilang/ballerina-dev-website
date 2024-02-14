@@ -1,0 +1,20 @@
+{
+  "title": "Basic authentication file user store",
+  "description": "This example demonstrates securing a GraphQL service with basic authentication by validating via a file user store.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "graphql",
+    "service",
+    "security",
+    "auth",
+    "basic auth"
+  ],
+  "permalink": "/learn/by-example/graphql-service-basic-auth-file-user-store",
+  "active": "graphql-service-basic-auth-file-user-store",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/graphql-service-basic-auth-file-user-store",
+    "/swan-lake/learn/by-example/graphql-service-basic-auth-file-user-store.html"
+  ]
+}

@@ -35,7 +35,7 @@ You can use the update tool to update to Ballerina Swan Lake Preview 5 as follow
 
 #### For existing users
 
-If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](http://ballerina.io/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
+If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/learn/update-tool/). To do this, first, execute the command below to get the update tool updated to its latest version. 
                         
 > `ballerina update`
 
@@ -276,5 +276,5 @@ Improved formatting support for all the language features. The new formatter als
 
 #### Known issues
 
-- The [WebSub](https://docs.central.ballerina.io/ballerina/websub/latest/) standard library module (ballerina/websub) is not working with Swan Lake Preview 5.
-- The [Socket](https://docs.central.ballerina.io/) standard library module (ballerina/socket) can only be built offline (i.e., with the `--offline` parameter) with Swan Lake Preview 5.
+- The `websub` standard library module (`ballerina/websub`) is not working with Swan Lake Preview 5.
+- The `socket` standard library module (`ballerina/socket`) can only be built offline (i.e., with the `--offline` parameter) with Swan Lake Preview 5.

@@ -76,7 +76,7 @@ You can use the update tool to update to Ballerina Swan Lake Alpha1 as follows.
 
 ##### For existing users
 
-If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/swan-lake/learn/keeping-ballerina-up-to-date/). To do this, first, execute the command below to get the update tool updated to its latest version. 
+If you are already using Ballerina, you can directly update your distribution to the Swan Lake channel using the [Ballerina update tool](/learn/update-tool/). To do this, first, execute the command below to get the update tool updated to its latest version. 
                         
 > `ballerina update`
 
@@ -102,7 +102,7 @@ If you have not installed Ballerina, then download the [installers](/downloads/#
 - Introduction of hierarchical package names
 - Introduction of the `Dependencies.toml` file
 - Introduction of REPL support for Ballerina via the `bal shell` command
-- Improvements to developer tools such as the Language Server, Project API, Debugger, Test Framework, Bindgen Tool, Maven Resolver, and Documentation
+- Improvements to developer tools such as the Language Server, Project API, Debugger, Test Framework, Bindgen tool, Maven Resolver, and Documentation
 - Improvements to the HTTP, WebSocket, gRPC, security, GraphQL, Kafka, NATS, NATS Streaming, RabbitMQ, Time, Runtime, Email, and WebSub standard library modules
 - Introduction of the new Random, RegEx, TCP, UDP, and WebSubHub standard library modules
 - Code action and code completion support for Code to Cloud libraries in the VS Code plugin
@@ -841,7 +841,7 @@ A Ballerina HTTP listener can be configured to authenticate and authorize the in
 - JWT authentication
 - OAuth2 authentication
 
-For more information, see [HTTP Listener Authentication and Authorization](/swan-lake/learn/security/authentication-and-authorization/#http-listener-authentication-and-authorization).
+For more information, see [HTTP Listener Authentication and Authorization](https://lib.ballerina.io/ballerina/http/latest).
 
 ###### HTTP client authentication
 
@@ -855,8 +855,6 @@ The Ballerina HTTP client can be configured to send authentication information t
 - Client credentials grant type
 - Password grant type
 - Direct token type
-
-For more information, see [HTTP Client Authentication](/swan-lake/learn/security/authentication-and-authorization/#http-client-authentication).
 
 ##### GraphQL module improvements
 

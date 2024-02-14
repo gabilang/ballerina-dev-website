@@ -1,0 +1,21 @@
+{
+  "title": "Mutual SSL",
+  "description": "This example demonstrates securing a GraphQL client with mutual SSL.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "graphql",
+    "client",
+    "security",
+    "mutual ssl",
+    "ssl protocols",
+    "ciphers"
+  ],
+  "permalink": "/learn/by-example/graphql-client-security-mutual-ssl",
+  "active": "graphql-client-security-mutual-ssl",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/graphql-client-security-mutual-ssl",
+    "/swan-lake/learn/by-example/graphql-client-security-mutual-ssl.html"
+  ]
+}

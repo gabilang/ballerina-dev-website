@@ -1,0 +1,18 @@
+{
+  "title": "Interceptor configurations",
+  "description": "This example demonstrates configuring the behavior of a GraphQL interceptor.",
+  "keywords": [
+    "ballerina",
+    "ballerina by example",
+    "bbe",
+    "graphql",
+    "service",
+    "interceptor"
+  ],
+  "permalink": "/learn/by-example/graphql-interceptor-configurations",
+  "active": "graphql-interceptor-configurations",
+  "redirect_from": [
+    "/swan-lake/learn/by-example/graphql-interceptor-configurations",
+    "/swan-lake/learn/by-example/graphql-interceptor-configurations.html"
+  ]
+}
